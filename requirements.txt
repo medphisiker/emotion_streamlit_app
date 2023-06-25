@@ -6,3 +6,4 @@ emotion_net_infer @ git+https://gitlab.com/group_19200719/emotion_net_infer
 onnx2torch==1.5.8
 pillow==9.5.0
 mediapipe==0.10.0
+opencv-python-headless==4.7.0.72
