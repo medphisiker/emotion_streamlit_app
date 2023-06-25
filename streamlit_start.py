@@ -41,10 +41,10 @@ def load_image(path2image):
 # поэтому для него ложим модель в репозиторий и считываем ее напрямую
 model_path = '/app/emotion_streamlit_app_test/emotion_cls_prod_model/last_prod_model.pth'
 
-if os.path.isfile(model_path):
-    emotion_net = EmotionNet()
-else:
+if os.path.exists(model_path):
     emotion_net = EmotionNet(model_path=model_path)
+else:
+    emotion_net = EmotionNet()
 
 # Верстка
 st.title("Распознавание эмоций человека по фото")
