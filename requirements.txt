@@ -1,0 +1,5 @@
+torch==1.13.0
+torchvision==0.14.0
+streamlit==1.22.0
+streamlit-image-select==0.6.0
+emotion_net_infer @ git+https://gitlab.com/group_19200719/emotion_net_infer
