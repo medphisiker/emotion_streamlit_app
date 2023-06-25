@@ -1,7 +1,6 @@
 import io
 import os
 import numpy as np
-import cv2
 
 import streamlit as st
 from PIL import Image
@@ -80,11 +79,8 @@ if recognize_our_pic:
         detections = emotion_det_net.detect_faces(image_rgb)
         image_rgb = emotion_det_net.viz_emo_detections(image_rgb, detections)
 
-        image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
-        cv2.imwrite("result.jpg", image_bgr)
-        
-        image = Image.open('result.jpg')
-        st.image(image, caption='Результаты распознавания эмоций')
+        image_rgb = Image.fromarray(image_rgb)
+        st.image(image_rgb, caption='Результаты распознавания эмоций')
         
         # st.write("Результаты распознавания эмоций:")
         # st.write(f"{emotion_name} {score:.0%}")
