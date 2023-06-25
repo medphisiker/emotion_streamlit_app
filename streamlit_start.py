@@ -1,4 +1,5 @@
 import io
+import os
 
 import streamlit as st
 from PIL import Image
@@ -38,7 +39,12 @@ def load_image(path2image):
 # в качестве альтернативы модель грузиться из Google Drive
 # но в Streamlit Cloud это не работает
 # поэтому для него ложим модель в репозиторий и считываем ее напрямую
-emotion_net = EmotionNet()
+model_path = '/app/emotion_streamlit_app_test/emotion_cls_prod_model/last_prod_model.pth'
+
+if os.path.isfile(model_path):
+    emotion_net = EmotionNet()
+else:
+    emotion_net = EmotionNet(model_path=model_path)
 
 # Верстка
 st.title("Распознавание эмоций человека по фото")
