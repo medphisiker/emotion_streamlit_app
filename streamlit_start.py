@@ -64,7 +64,7 @@ path2image = image_select(
         "example_images/02-02-03-02-01-02-24_frame_120_0.png",
         "example_images/02-01-01-01-02-02-24_frame_100_0.png",
     ],
-    captions=["angry", "surprised", "neutral"],
+    captions=["angry", "happy", "neutral"],
     use_container_width=False,
 )
 
