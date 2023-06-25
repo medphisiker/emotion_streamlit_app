@@ -38,8 +38,7 @@ def load_image(path2image):
 # в качестве альтернативы модель грузиться из Google Drive
 # но в Streamlit Cloud это не работает
 # поэтому для него ложим модель в репозиторий и считываем ее напрямую
-model_path = "last_prod_model.pth"
-emotion_net = EmotionNet(model_path="last_prod_model.pth")
+emotion_net = EmotionNet()
 
 # Верстка
 st.title("Распознавание эмоций человека по фото")
