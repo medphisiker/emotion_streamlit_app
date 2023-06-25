@@ -1,11 +1,13 @@
 import io
 import os
+import numpy as np
+import cv2
 
 import streamlit as st
 from PIL import Image
 from streamlit_image_select import image_select
 
-from emotion_net_infer import EmotionNet
+from emotion_net_infer import EmotionNet, EmotionRecognitionOnFaceDetection
 
 
 def load_image_from_user():
@@ -45,6 +47,8 @@ if os.path.exists(model_path):
     emotion_net = EmotionNet(model_path=model_path)
 else:
     emotion_net = EmotionNet()
+    
+emotion_det_net = EmotionRecognitionOnFaceDetection(emotion_net)
 
 # Верстка
 st.title("Распознавание эмоций человека по фото")
@@ -72,8 +76,18 @@ recognize_our_pic = st.button("Распознать эмоцию на нашем
 if recognize_our_pic:
     try:
         emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
-        st.write("Результаты распознавания эмоций:")
-        st.write(f"{emotion_name} {score:.0%}")
+        image_rgb = np.array(image)
+        detections = emotion_det_net.detect_faces(image_rgb)
+        image_rgb = emotion_det_net.viz_emo_detections(image_rgb, detections)
+
+        image_bgr = cv2.cvtColor(image_rgb, cv2.COLOR_RGB2BGR)
+        cv2.imwrite("result.jpg", image_bgr)
+        
+        image = Image.open('result.jpg')
+        st.image(image, caption='Результаты распознавания эмоций')
+        
+        # st.write("Результаты распознавания эмоций:")
+        # st.write(f"{emotion_name} {score:.0%}")
 
     except TypeError:
         st.write("Вы не выбрали фото")
