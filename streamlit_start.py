@@ -40,7 +40,7 @@ def load_image(path2image):
 if __name__ == "__main__":
     # Верстка    
     st.title("Распознавание эмоций человека по фото")
-    st.title("Модель использует, - {emotion_net.device}")
+    st.title(f"Модель использует, - {emotion_net.device}")
     st.markdown("Выберите изображение одним из любых предложенных способов ниже.")
     st.markdown("Затем нажмите кнопку `Распознать эмоцию` внизу.")
 
