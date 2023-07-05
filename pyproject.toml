@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "emotion-streamlit-app"
+version = "0.1.0"
+description = ""
+authors = ["Anton Shiryaev <shiryaev_anton@cashalot.co>"]
+readme = "README.md"
+packages = [{include = "emotion_streamlit_app"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+torch = "1.13.0"
+torchvision = "0.14.0"
+streamlit = "1.22.0"
+streamlit-image-select = "0.6.0"
+onnx2torch = "1.5.8"
+emotion-net-infer = {git = "https://gitlab.com/group_19200719/emotion_net_infer"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
