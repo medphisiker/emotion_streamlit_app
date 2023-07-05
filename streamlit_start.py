@@ -92,11 +92,11 @@ if __name__ == "__main__":
     st.markdown(
         "Чтобы сделать снимок с вашей веб-камеры, нажмите кнопку ниже `[Take Photo]`"
     )
-    
+    image = get_webcam_photo_from_user()
     recognize_user_webcam_photo = st.button("Распознать эмоцию на фото c веб-камеры")
+
     if recognize_user_webcam_photo:
         try:
-            image = get_webcam_photo_from_user()
             emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
             st.write("Результаты распознавания эмоций:")
             st.write(f"{emotion_name} {score:.0%}")
