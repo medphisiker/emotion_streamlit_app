@@ -1,2 +1,5 @@
 # ignore cache
 **__pycache__**
+
+# ignore models
+emotion_cls_prod_model
