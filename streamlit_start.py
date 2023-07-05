@@ -1,12 +1,14 @@
 import io
-import os
-import numpy as np
 
 import streamlit as st
+from emotion_net_infer import EmotionNet
 from PIL import Image
 from streamlit_image_select import image_select
 
-from emotion_net_infer import EmotionNet, EmotionRecognitionOnFaceDetection
+# инициализация модели
+# модель должна загружаться из MLFLow (он под VPN).
+# в качестве альтернативы модель грузиться из Google Drive
+emotion_net = EmotionNet()
 
 
 def load_image_from_user():
@@ -35,92 +37,73 @@ def load_image(path2image):
     return image
 
 
-# инициализация модели
-# модель должна загружаться из MLFLow он под VPN.
-# в качестве альтернативы модель грузиться из Google Drive
-# но в Streamlit Cloud это не работает
-# поэтому для него ложим модель в репозиторий и считываем ее напрямую
-model_path = '/app/emotion_streamlit_app_test/emotion_cls_prod_model/last_prod_model.pth'
+if __name__ == "__main__":
+    # Верстка
+    st.title("Распознавание эмоций человека по фото")
+    st.markdown("Выберите изображение одним из любых предложенных способов ниже.")
+    st.markdown("Затем нажмите кнопку `Распознать эмоцию` внизу.")
 
-if os.path.exists(model_path):
-    emotion_net = EmotionNet(model_path=model_path)
-else:
-    emotion_net = EmotionNet()
-    
-emotion_det_net = EmotionRecognitionOnFaceDetection(emotion_net)
+    # блок распознавания по готовым примерам
+    st.header("Способ 1: Выберите в качестве изображений один из наших примеров:")
 
-# Верстка
-st.title("Распознавание эмоций человека по фото")
-st.markdown("Выберите изображение одним из любых предложенных способов ниже.")
-st.markdown("Затем нажмите кнопку `Распознать эмоцию` внизу.")
+    path2image = image_select(
+        label="Выберите одну из наших фото",
+        images=[
+            "example_images/02-01-05-02-02-02-24_frame_105_0.png",
+            "example_images/02-02-03-02-01-02-24_frame_120_0.png",
+            "example_images/02-01-01-01-02-02-24_frame_100_0.png",
+        ],
+        captions=["angry", "happy", "neutral"],
+        use_container_width=False,
+    )
 
-# блок распознавания по готовым примерам
-st.header("Способ 1: Выберите в качестве изображений один из наших примеров:")
+    image = load_image(path2image)
 
-path2image = image_select(
-    label="Выберите одну из наших фото",
-    images=[
-        "example_images/02-01-05-02-02-02-24_frame_105_0.png",
-        "example_images/02-02-03-02-01-02-24_frame_120_0.png",
-        "example_images/02-01-01-01-02-02-24_frame_100_0.png",
-    ],
-    captions=["angry", "happy", "neutral"],
-    use_container_width=False,
-)
+    recognize_our_pic = st.button("Распознать эмоцию на нашем примере")
 
-image = load_image(path2image)
+    if recognize_our_pic:
+        try:
+            emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
 
-recognize_our_pic = st.button("Распознать эмоцию на нашем примере")
+            st.write("Результаты распознавания эмоций:")
+            st.write(f"{emotion_name} {score:.0%}")
 
-if recognize_our_pic:
-    try:
-        emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
-        image_rgb = np.array(image)
-        detections = emotion_det_net.detect_faces(image_rgb)
-        image_rgb = emotion_det_net.viz_emo_detections(image_rgb, detections)
+        except TypeError:
+            st.write("Вы не выбрали фото")
 
-        image_rgb = Image.fromarray(image_rgb)
-        st.image(image_rgb, caption='Результаты распознавания эмоций')
-        
-        # st.write("Результаты распознавания эмоций:")
-        # st.write(f"{emotion_name} {score:.0%}")
+    # блок распознавания по фото пользователя
+    st.header("Способ 2: Загрузите свое фото с вашего компьютера")
+    image = load_image_from_user()
+    recognize_user_pic = st.button("Распознать эмоцию на вашем фото")
 
-    except TypeError:
-        st.write("Вы не выбрали фото")
+    if recognize_user_pic:
+        try:
+            emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
+            st.write("Результаты распознавания эмоций:")
+            st.write(f"{emotion_name} {score:.0%}")
 
-# блок распознавания по фото пользователя
-st.header("Способ 2: Загрузите свое фото с вашего компьютера")
-image = load_image_from_user()
-recognize_user_pic = st.button("Распознать эмоцию на вашем фото")
+        except TypeError:
+            st.write("Вы не выбрали фото")
 
-if recognize_user_pic:
-    try:
-        emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
-        st.write("Результаты распознавания эмоций:")
-        st.write(f"{emotion_name} {score:.0%}")
+    # блок распознавания по фото с web-камеры пользователя
+    st.header("Способ 3: Распознаем эмоции на вашем фото с вашей веб-камеры")
 
-    except TypeError:
-        st.write("Вы не выбрали фото")
+    st.markdown(
+        "Чтобы сделать снимок с вашей веб-камеры, нажмите кнопку ниже `[Take Photo]`"
+    )
+    image = get_webcam_photo_from_user()
+    recognize_user_webcam_photo = st.button("Распознать эмоцию на фото c веб-камеры")
 
-# блок распознавания по фото с web-камеры пользователя
-st.header("Способ 3: Распознаем эмоции на вашем фото с вашей веб-камеры")
+    if recognize_user_webcam_photo:
+        try:
+            emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
+            st.write("Результаты распознавания эмоций:")
+            st.write(f"{emotion_name} {score:.0%}")
 
-st.markdown(
-    "Чтобы сделать снимок с вашей веб-камеры, нажмите кнопку ниже `[Take Photo]`"
-)
-image = get_webcam_photo_from_user()
-recognize_user_webcam_photo = st.button("Распознать эмоцию на фото c веб-камеры")
-
-if recognize_user_webcam_photo:
-    try:
-        emotion_name, score = emotion_net.predict_on_image(image, return_label=True)
-        st.write("Результаты распознавания эмоций:")
-        st.write(f"{emotion_name} {score:.0%}")
-
-    except TypeError:
-        st.write("Не удалось получить снимок с вашей веб камеры.")
-        st.markdown(
-            f"Для предоставления доступа к вашей веб-камере пожалуйста, "
-            f"выполните инструкции приведенные [по ссылке]"
-            f"(https://docs.streamlit.io/knowledge-base/using-streamlit/enable-camera)."
-        )
+        except TypeError:
+            st.write("Не удалось получить снимок с вашей веб камеры.")
+            st.markdown(
+                f"Для предоставления доступа к вашей веб-камере пожалуйста, "
+                f"выполните инструкции приведенные [по ссылке]"
+                f"(https://docs.streamlit.io/knowledge-base/using-streamlit/enable-camera)."
+            )
