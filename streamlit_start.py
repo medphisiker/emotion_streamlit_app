@@ -56,8 +56,9 @@ if __name__ == "__main__":
             "example_images/fearful_frame_17.jpg",
             "example_images/happy_frame_20.jpg",
             "example_images/sad_frame_47.jpg",
+            "example_images/four_faces.jpg",
         ],
-        captions=["angry.jpg", "fearful", "happy", "sad"],
+        captions=["angry", "fearful", "happy", "sad", "4 faces"],
         use_container_width=False,
     )
 
