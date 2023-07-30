@@ -1,7 +1,14 @@
-# ignore cache
-**__pycache__**
-
-# ignore models
-Audiovisual_emotion_recognition
+# игнорируем модели
+*.pth*
 models
+model
 RetinaFace_weights
+
+# игнорируем наборы тестовых картинок
+test_pics/test
+
+# игнорируем кэш python
+*.pyc
+
+# игнорируем результаты от наших моделей
+output
