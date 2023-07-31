@@ -20,9 +20,8 @@ def load_image_from_user():
 def get_webcam_photo_from_user():
     uploaded_file = st.camera_input("")
     if uploaded_file is not None:
-        image_data = uploaded_file.getvalue()
-        st.image(image_data)
-        return Image.open(io.BytesIO(image_data))
+        image = Image.open(uploaded_file)
+        return image
     else:
         return None
 
