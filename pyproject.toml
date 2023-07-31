@@ -4,18 +4,16 @@ version = "0.1.0"
 description = ""
 authors = ["Anton Shiryaev <shiryaev_anton@cashalot.co>"]
 readme = "README.md"
-packages = [{include = "emotion_streamlit_app"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
-torch = "1.13.0"
-torchvision = "0.14.0"
+torch = {url = "https://download.pytorch.org/whl/cpu/torch-1.13.0%2Bcpu-cp310-cp310-linux_x86_64.whl"}
+torchvision = {url = "https://download.pytorch.org/whl/cpu/torchvision-0.14.0%2Bcpu-cp310-cp310-linux_x86_64.whl"}
 streamlit = "1.22.0"
 streamlit-image-select = "0.6.0"
 emotion-net-infer = {git = "https://gitlab.com/group_19200719/multimodal-emotion-recognition_infer.git"}
 emotion-video-track = {git = "https://gitlab.com/group_19200719/emotion_video_track"}
 emotion-det-net-infer = {git = "https://gitlab.com/group_19200719/pytorch_retinaface_infer.git"}
-
 
 [build-system]
 requires = ["poetry-core"]
