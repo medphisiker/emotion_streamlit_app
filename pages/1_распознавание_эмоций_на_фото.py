@@ -6,12 +6,6 @@ from streamlit_image_select import image_select
 from emotion_net_infer import EmotionSeqClassifier
 from emotion_det_net_infer import DetectEmotionOnFaces
 
-# инициализация модели
-# модель должна загружаться из MLFLow (он под VPN).
-# в качестве альтернативы модель грузиться из Google Drive
-emo_seq_classifier = EmotionSeqClassifier()
-emotion_det_net = DetectEmotionOnFaces(emo_seq_classifier)
-
 
 def load_image_from_user():
     uploaded_file = st.file_uploader(label="Выберите изображение для распознавания")
@@ -40,6 +34,12 @@ def load_image(path2image):
 
 
 if __name__ == "__main__":
+    # инициализация модели
+    # модель должна загружаться из MLFLow (он под VPN).
+    # в качестве альтернативы модель грузиться из Google Drive
+    emo_seq_classifier = EmotionSeqClassifier()
+    emotion_det_net = DetectEmotionOnFaces(emo_seq_classifier)
+    
     # Верстка
     st.title("Распознавание эмоций человека по фото")
     st.title(f"Модель использует, - {emotion_det_net.device}")
