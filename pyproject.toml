@@ -4,7 +4,6 @@ version = "0.1.0"
 description = ""
 authors = ["Anton Shiryaev <shiryaev_anton@cashalot.co>"]
 readme = "README.md"
-packages = [{include = "emotion_streamlit_app"}]
 
 [tool.poetry.dependencies]
 python = "^3.10"
