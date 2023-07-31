@@ -526,7 +526,7 @@ torchvision = "0.14.0"
 type = "git"
 url = "https://gitlab.com/group_19200719/pytorch_retinaface_infer.git"
 reference = "HEAD"
-resolved_reference = "672c81b821a6ba1814f36def223f8d3e3da3856f"
+resolved_reference = "5c00a19341933eb96533cd89c2475b1fa1e8a6c4"
 
 [[package]]
 name = "emotion-net-infer"

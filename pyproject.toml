@@ -12,8 +12,8 @@ torchvision = {url = "https://download.pytorch.org/whl/cpu/torchvision-0.14.0%2B
 streamlit = "1.22.0"
 streamlit-image-select = "0.6.0"
 emotion-net-infer = {git = "https://gitlab.com/group_19200719/multimodal-emotion-recognition_infer.git"}
-emotion-det-net-infer = {git = "https://gitlab.com/group_19200719/pytorch_retinaface_infer.git"}
 emotion-video-track = {git = "https://gitlab.com/group_19200719/emotion_video_track"}
+emotion-det-net-infer = {git = "https://gitlab.com/group_19200719/pytorch_retinaface_infer.git"}
 
 [build-system]
 requires = ["poetry-core"]
