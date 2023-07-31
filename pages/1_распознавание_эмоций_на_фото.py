@@ -21,6 +21,7 @@ def get_webcam_photo_from_user():
     uploaded_file = st.camera_input("")
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
+        st.image(image)
         return image
     else:
         return None
@@ -98,15 +99,18 @@ if __name__ == "__main__":
     recognize_user_webcam_photo = st.button("Распознать эмоцию на фото c веб-камеры")
 
     if recognize_user_webcam_photo:
-        try:
-            detections = emotion_det_net.detect_faces(image)
-            image = emotion_det_net.viz_emo_detections(image, detections)
-            st.image(image, caption="Результаты распознавания эмоций")
+        if image is not None:
+            try:
+                detections = emotion_det_net.detect_faces(image)
+                image = emotion_det_net.viz_emo_detections(image, detections)
+                st.image(image, caption="Результаты распознавания эмоций")
 
-        except TypeError:
-            st.write("Не удалось получить снимок с вашей веб камеры.")
-            st.markdown(
-                f"Для предоставления доступа к вашей веб-камере пожалуйста, "
-                f"выполните инструкции приведенные [по ссылке]"
-                f"(https://docs.streamlit.io/knowledge-base/using-streamlit/enable-camera)."
-            )
+            except TypeError:
+                st.write("Не удалось получить снимок с вашей веб камеры.")
+                st.markdown(
+                    f"Для предоставления доступа к вашей веб-камере пожалуйста, "
+                    f"выполните инструкции приведенные [по ссылке]"
+                    f"(https://docs.streamlit.io/knowledge-base/using-streamlit/enable-camera)."
+                )
+        else:
+            st.text("Захват изображения не удался")
