@@ -576,7 +576,7 @@ scikit-image = "^0.21.0"
 type = "git"
 url = "https://gitlab.com/group_19200719/emotion_video_track"
 reference = "HEAD"
-resolved_reference = "c7c6cfdc20adc83ba8fbe7e9b9c25b8ce1c9daad"
+resolved_reference = "2c547a2146410d767f2a695347e2df5932dfd612"
 
 [[package]]
 name = "entrypoints"
