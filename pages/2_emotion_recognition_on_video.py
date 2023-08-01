@@ -45,12 +45,16 @@ if __name__ == "__main__":
         try:
             if os.path.exists('output'):
                 shutil.rmtree('output')
+                
+            progress_text = "Распознаем эмоции людей на видео"
+            progress_bar = st.progress(0, text=progress_text)
             
             emotion_video_track.track_emotions_on_video(
                 path2video,
                 "output",
                 "emotion_video_annotation.csv",
                 "emotion_video_visualisation.mp4",
+                progress_bar
             )
 
             video_file = open("output/emotion_video_visualisation.mp4", "rb")
