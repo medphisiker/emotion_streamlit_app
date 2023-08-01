@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  app:
+    container_name: emotion_streamlit_app
+    restart: always
+    build: .
+    image: emotion_streamlit_app
+    ports:
+      - "8501:8501"
+    networks:
+      - app
+    environment:
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      MLFLOW_SERVER_URI: ${MLFLOW_SERVER_URI}
+      MLFLOW_S3_ENDPOINT_URL: ${MLFLOW_S3_ENDPOINT_URL}
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+
+networks:
+  app:
+    driver: bridge
+
+
